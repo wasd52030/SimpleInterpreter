@@ -1,0 +1,136 @@
+# Grammar
+
+a dog bit The man
+a woman kick The dog
+The man stroked a woman
+The robot stroked a cat
+~a cat stroked The robot~
+
+<subj>   <verb>   <obj>
+a dog    bit      the man
+a woman  kick     the dog
+The man  stroked  a woman
+
+## (E)BNF(Backus–Naur form)
+
+History:
+John Warner Backus, Peter Naur,
+ALGOL 60, HOPL(History of Programming Languages Conference)
+
+**Generative rules:**
+1. <name> ::= <expression>
+2. <nonterminal> ::= <terminal> | <nonmterminal>
+
+More mathematical: **Rules of Inference**
+Read Material: 
+https://www.cs.umd.edu/class/spring2022/cmsc388X/Defining_Languages.html
+
+BNF example:
+------------------------------------------>
+|<sentence> ::= <subject> <verb> <object>
+|<subject>  ::= <article> <noun> | The robot
+|<object>   ::= <article> <noun> | a cat
+|<article>  ::= the | a
+|<noun>     ::= man | woman | dog
+|<verb>     ::= bit | kicked| stroked
+v
+
+Generation
+<sentence> ::= <subject> <verb> <object>
+<sentence> ::= <article> <noun> <verb> <object>   ; apply <subject>
+<sentence> ::= the <noun> <verb> <object>         ; apply <article>
+<sentence> ::= the man <verb> <object>            ; apply <noun>
+<sentence> ::= the man stroked <object>           ; apply <verb>
+<sentence> ::= the man stroked a cat              ; apply <object>
+
+
+example:
+The man stroked a cat
+                         <sentence>
+                         /   |   \
+                 <subject> <verb> <object>
+                   /   \     |        |
+            <article> <noun> stroked  a cat
+                |        |
+               The      man
+
+It's CFGs(Context-Free Grammar)
+
+First try:
+<expression_statement> = <expression> ';'
+<expression> ::= <add> 
+               | <sub> 
+               | <multiply> 
+               | <division> 
+               | <group> 
+               | <factor>
+<group>      ::= '(' <expression> ')'
+<add>        ::= <expression> '+' <expression>
+<sub>        ::= <expression> '-' <expression>
+<multiply>   ::= <expression> '*' <expression>
+<division>   ::= <expression> '/' <expression>
+<factor>     ::= <number> 
+               | '+' <number> 
+               | '-' <number> 
+               | '+' <group> 
+               | '-' <group>
+<number>     ::= [0-9]+(\.[0-9]*)?
+
+Problem:
+- Left Recursion
+<expression> ::= <add>
+<expression> ::= <expression> '+' <expression>
+<expression> ::= <add> '+' <expression>
+<expression> ::= <expression> '+' <expression> '+' <expression>
+<expression> ::= <add> '+' <expression> '+' <expression>
+...
+You see the problem?
+Y ::= Ya
+Y ::= Yaa
+Y ::= Yaaa
+...
+Solution: **Left Recursion Elimination**
+
+- Precedence
+1 + 2 * 3
+
+Correct Output -> AST
+                   +
+                  / \
+                 1   *
+                    / \
+                   2   3
+~Wrong Output~ -> AST
+                   *
+                  / \
+                 +   3
+                / \
+               1   2
+PEMDAS rule
+
+Second Try:
+<expression_statement> ::= <term> ';'
+<term>                 ::= <factor> (( '+' | '-' ) <factor>)*
+<factor>               ::= <unary> (( '*' | '/' ) <unary>)*
+<unary>                ::= "-" <unary> | <primary>
+<primary>              ::= <number> | '(' <term> ')'
+<number>               ::= [0-9]+(\.[0-9]*)?
+                     AST
+                      +
+                     / \
+                    1   *
+                       / \
+                      2   3
+
+Support multiply lines, we need statements.
+
+expression: 1 + 2 * 3
+statements: 1 + 2 * 3;
+            4 / 5;
+Differences:
+1. statements does not have return value
+2. expression has return value
+Previous:
+./slice2.txt
+Next:
+./slice4.txt

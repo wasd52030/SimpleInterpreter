@@ -1,0 +1,23 @@
+expression -> 
+    | term
+    | expression '+' term
+    | expression '-' term
+
+term ->
+    | factor
+    | term '*' factor
+    | term '/' factor
+    | term '%' factor
+
+factor ->
+    | primary
+    | '-' factor
+    | '+' factor
+
+primary ->
+    | number
+    | '(' expression ')'
+
+number -> integer | '+'integer | '-' integer
+
+primary ->[0-9]+(\.[0-9]*)?

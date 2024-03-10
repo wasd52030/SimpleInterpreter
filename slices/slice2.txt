@@ -1,0 +1,41 @@
+# Lexer
+
+Token types ->
+   | NUMBER
+   | PLUS
+   | MINUS 
+   | STAR
+   | SLASH
+   | LEFT_PARENT
+   | RIGHT_PARENT
+   | SEMICOLON
+   | EOF
+
+Number -> [0-9]+(\.[0-9]+)?
+
+ie: 1, 0.1, 1.0
+
+*No Symbols, - is just prefix operators.*
+
+44114.5213
+|    |  
+
+Input -> "0.5 + 1 * 0.8;"
+
+"0" "." "5" "+" "1" "*" "0" "." "8" ";"
+
+Primary operations:
+- is_at_end()
+- advance()
+- peek(offset=0)
+
+0.5
+dog.bit()
+We need to *lookahead* 1 char.
+
+Result -> [(0.5, NUMBER), (+, PLUS), (1, NUMBER), (*, STAR), (0.8, NUMBER), (;, SEMICOLON)]
+
+Previous:
+./slice1.txt
+Next:
+./slice3.txt

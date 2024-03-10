@@ -1,0 +1,28 @@
+# Parser
+
+Input -> 1+2*3;
+Input -> [(1, NUMBER), (+, PLUS), (2, NUMBER), (*, STAR), (3, NUMBER), (;, SEMICOLON)]
+
+------------------------------------>
+|<expression_statement> := <term> ';'
+|<term>       ::= <factor> (( '+' | '-' ) <factor>)*
+|<factor>     ::= <unary> (( '*' | '/' ) <unary>)*
+|<unary>      ::= "-" <unary> | <primary>
+|<primary>    ::= <number> | '(' <term> ')'
+|<number>     ::= [0-9]+(\.[0-9]*)?
+v
+
+Recursive Descent Parser (Top-Down Parser)
+LL(1) Left-to-Right Leftmost Derivation
+**1** + 2 * 3;
+<expression_statement> = <term> ';'
+<expression_statement> = <factor> (( '+' | '-' ) <factor>)* ';'
+<expression_statement> = <unary> (( '*' | '/' ) <unary>)* (( '+' | '-' ) <factor>)* ';'
+~<expression_statement> =  "-" <unary> (( '*' | '/' ) <unary>)* (( '+' | '-' ) <factor>)* ';'~; Can not match
+<expression_statement> = <primary> (( '*' | '/' ) <unary>)* (( '+' | '-' ) <factor>)* ';'
+<expression_statement> = <number> (( '*' | '/' ) <unary>)* (( '+' | '-' ) <factor>)* '; '
+<expression_statement> = **1** (( '*' | '/' ) <unary>)* (( '+' | '-' ) <factor>)* '; '
+; Matched !
+
+Previous:
+./slice3.txt

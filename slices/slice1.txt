@@ -1,0 +1,33 @@
+# Steps
+
+Lexer/Tokenizer => Parser => Interpreter
+<-------Front End ------>    <---Back End-->
+
+
+Input -> "1 + 2 * 3.5;"
+
+Lexer -> [(1, Number), (+, Plus), (2, Number), (*, Star), (3.5, Number), (;, Semicolon)]
+
+PEMDAS rule
+Parser -> AST(Abstract Syntax Tree)
+           +
+          / \
+         1   *
+            / \
+           2  3.5
+
+S-expression: (+ 1 (* 2 3.5))
+
+Recursive Evaluation:
+Bottom to Up
+
+Interpreter -> +
+              / \
+             1   7 (2*3.5)
+
+Interpreter -> 8 (1+7)
+
+https://www.youtube.com/watch?v=OKcCiMV2dQA&list=PLre5AT9JnKShBOPeuiD9b-I4XROIJhkIU&index=155
+
+Next:
+./slice2.txt
