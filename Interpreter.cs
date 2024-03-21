@@ -27,7 +27,7 @@ class Interpreter(IEnumerable<Statment> statments)
             case BinaryExpression expr:
                 var left = eval(expr.left);
                 var right = eval(expr.right);
-                
+
                 return expr.op.type switch
                 {
                     TokenType.PLUS => left + right,
@@ -41,15 +41,5 @@ class Interpreter(IEnumerable<Statment> statments)
         }
     }
 
-    public IEnumerable<float> cal()
-    {
-        var result = Enumerable.Empty<float>();
-
-        foreach (var statment in statments)
-        {
-            result = result.Append(eval(statment.expression));
-        }
-
-        return result;
-    }
+    public IEnumerable<float> cal() => statments.Select(statment => eval(statment.expression));
 }
