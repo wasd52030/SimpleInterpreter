@@ -67,7 +67,7 @@ async Task main()
     var rootCommand = new RootCommand();
 
     var fileOption = new Option<string>
-    (aliases: new string[] { "--file" },
+    (aliases: new string[] { "--file", },
     description: "",
     getDefaultValue: () => "");
     rootCommand.AddOption(fileOption);
